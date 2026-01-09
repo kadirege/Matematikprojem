@@ -333,76 +333,75 @@ body {
         margin: 20px 0;
     }
 }
-/* --- HAKKIMDA BUTONU POZİSYONU --- */
+/* --- HAKKIMDA BUTONU (PC) --- */
 #hakkimda-btn {
     left: 50%;
-    transform: translateX(-50%); /* Tam ortaya hizalar */
+    transform: translateX(-50%); /* Tam Ortala */
     top: 20px;
     font-size: 1rem;
     padding: 10px 25px;
     white-space: nowrap;
     width: auto;
     display: flex; align-items: center; justify-content: center;
+    z-index: 999;
 }
 
-/* Mobil için ayar */
-@media (max-width: 768px) {
-    #hakkimda-btn {
-        font-size: 0.9rem;
+/* --- TELEFON (MOBİL) AYARLARI --- */
+@media (max-width: 768px) { 
+    #hakkimda-btn { 
+        font-size: 0.9rem; 
         padding: 8px 20px;
+        top: 80px; /* Telefonda diğer butonların altına insin */
+    }
+    
+    /* Telefonda pencere taşmasın */
+    .hakkimda-kutu {
+        width: 90% !important;
+        padding: 20px !important;
+        max-height: 80vh; /* Ekranın %80'ini geçmesin */
+        overflow-y: auto; /* Sığmazsa aşağı kaysın */
     }
 }
 
-/* --- HAKKIMDA PENCERESİ TASARIMI --- */
+/* --- PENCERE TASARIMI --- */
 #hakkimda-modal {
-    display: none;
-    position: fixed; top: 0; left: 0;
+    display: none; position: fixed; top: 0; left: 0; 
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    z-index: 3000;
-    justify-content: center; align-items: center;
+    background: rgba(0,0,0,0.85); /* Arka plan karartma */
+    z-index: 3000; 
+    justify-content: center; align-items: center; 
     backdrop-filter: blur(5px);
 }
 
 .hakkimda-kutu {
-    background: var(--panel-bg, white);
-    color: var(--text, #333);
-    width: 90%; max-width: 400px;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    background: white; width: 90%; max-width: 400px; 
+    padding: 30px; border-radius: 20px;
+    text-align: center; position: relative; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3); 
     animation: zoomAc 0.3s ease;
 }
 
 @keyframes zoomAc { from {transform: scale(0.5); opacity: 0;} to {transform: scale(1); opacity: 1;} }
 
-.profil-resmi {
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--primary, #4e54c8);
-    padding: 3px;
-    background: white;
+.profil-resmi { 
+    width: 120px; height: 120px; border-radius: 50%; object-fit: cover; 
+    border: 4px solid var(--primary); margin-bottom: 15px; 
+    padding: 3px; background: white; 
 }
 
-.sosyal-linkler {
-    margin-top: 20px;
-    display: flex; justify-content: center; gap: 10px;
+.sosyal-linkler { 
+    margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; 
 }
 
-.sosyal-btn {
-    text-decoration: none;
-    background: #f0f0f0; color: #333;
-    padding: 10px 15px; border-radius: 8px;
-    font-weight: bold; font-size: 0.9rem;
-    transition: 0.3s;
+.sosyal-btn { 
+    text-decoration: none; background: #f0f0f0; color: #333; 
+    padding: 10px 15px; border-radius: 8px; font-weight: bold; 
+    font-size: 0.9rem; transition: 0.3s; margin-bottom: 5px;
 }
-.sosyal-btn:hover { background: var(--primary, #4e54c8); color: white; }
+.sosyal-btn:hover { background: var(--primary); color: white; transform: translateY(-3px); }
 
-.kapat-x {
-    position: absolute; top: 15px; right: 20px;
-    font-size: 1.5rem; cursor: pointer; color: #999;
+.kapat-x { 
+    position: absolute; top: 10px; right: 15px; 
+    font-size: 2rem; cursor: pointer; color: #999; line-height: 1;
 }
 .kapat-x:hover { color: red; }
