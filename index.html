@@ -546,7 +546,7 @@
         function arsivKapat() { document.getElementById('tam-ekran-arsiv').classList.remove('aktif'); }
         function konuGoster(id) { document.querySelectorAll('.arsiv-konu').forEach(e => e.style.display='none'); document.getElementById(id).style.display='block'; }
 
-        const sorular = [ { s: "Algoritma ismi kime aittir?", c: ["Newton", "Harezmi", "Einstein", "Öklid"], d: 1 }, { s: "Geometrinin babası kimdir?", c: ["Pisagor", "Öklid", "Arşimet", "Thales"], d: 1 }, { s: "Sıfırı kim buldu?", c: ["Romalılar", "Mısırlılar", "Hint/İslam", "Yunanlılar"], d: 2 }, { s: "1 saat neden 60 dakikadır?", c: ["Sümerler", "Romalılar", "Türkler", "İngilizler"], d: 0 }, { s: "10 TL arkasındaki kimdir?", c: ["Ali Kuşçu", "Ömer Hayyam", "Cahit Arf", "Kerim Erim"], d: 2 } ];
+        const sorular = [ { s: "Algoritma ismi kime aittir?", c: ["Newton", "Harezmi", "Einstein", "Öklid"], d: 1 }, { s: "Geometrinin babası kimdir?", c: ["Pisagor", "Öklid", "Arşimet", "Thales"], d: 1 }, { s: "Sıfırı kim buldu?", c: ["Romalılar", "Mısırlılar", "Hint/İslam", "Yunanlılar"], d: 2 }, { s: "1 saatin 60 dakika olduğunu hangi uygarlık belirlemiştir?", c: ["Sümerler", "Romalılar", "Türkler", "İngilizler"], d: 0 }, { s: "10 TL arkasındaki kimdir?", c: ["Ali Kuşçu", "Ömer Hayyam", "Cahit Arf", "Kerim Erim"], d: 2 } ];
         function sorulariKaristir() { sorular.sort(() => Math.random() - 0.5); }
         let aktifSoru = 0, puan = 0;
         function quizBaslat() { aktifSoru = 0; puan = 0; document.getElementById('quiz-modal').style.display='flex'; document.getElementById('quiz-soru-alani').style.display='block'; document.getElementById('quiz-sonuc-alani').style.display='none'; soruGoster(); }
@@ -580,4 +580,5 @@
 </div>
 </body>
 <script src="main.js"></script>
+
 </html>
