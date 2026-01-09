@@ -546,7 +546,7 @@
         function arsivKapat() { document.getElementById('tam-ekran-arsiv').classList.remove('aktif'); }
         function konuGoster(id) { document.querySelectorAll('.arsiv-konu').forEach(e => e.style.display='none'); document.getElementById(id).style.display='block'; }
 
-        const sorular = [ { s: "Algoritma ismi kime aittir?", c: ["Newton", "Harezmi", "Einstein", "Öklid"], d: 1 }, { s: "Geometrinin babası kimdir?", c: ["Pisagor", "Öklid", "Arşimet", "Thales"], d: 1 }, { s: "Sıfırı kim buldu?", c: ["Romalılar", "Mısırlılar", "Hint/İslam", "Yunanlılar"], d: 2 }, { s: "1 saatin 60 dakika olduğunu hangi uygarlık belirlemiştir?", c: ["Sümerler", "Romalılar", "Türkler", "İngilizler"], d: 0 }, { s: "10 TL arkasındaki kimdir?", c: ["Ali Kuşçu", "Ömer Hayyam", "Cahit Arf", "Kerim Erim"], d: 2 } ];
+        const sorular = [ { s: "Algoritma ismi kime aittir?", c: ["Newton", "Harezmi", "Einstein", "Öklid"], d: 1 }, { s: "Geometrinin babası kimdir?", c: ["Pisagor", "Öklid", "Arşimet", "Thales"], d: 1 }, { s: "Sıfırı kim buldu?", c: ["Romalılar", "Mısırlılar", "Hint/İslam", "Yunanlılar"], d: 2 }, { s: "1 saat neden 60 dakikadır?", c: ["Sümerler", "Romalılar", "Türkler", "İngilizler"], d: 0 }, { s: "10 TL arkasındaki kimdir?", c: ["Ali Kuşçu", "Ömer Hayyam", "Cahit Arf", "Kerim Erim"], d: 2 } ];
         function sorulariKaristir() { sorular.sort(() => Math.random() - 0.5); }
         let aktifSoru = 0, puan = 0;
         function quizBaslat() { aktifSoru = 0; puan = 0; document.getElementById('quiz-modal').style.display='flex'; document.getElementById('quiz-soru-alani').style.display='block'; document.getElementById('quiz-sonuc-alani').style.display='none'; soruGoster(); }
@@ -555,30 +555,31 @@
     </script>
     <div id="image-zoom-modal" class="zoom-modal" onclick="this.style.display='none'">
     <img id="zoomed-image" src="" alt="Zoomed">
-</div>
+</div>  
 
 <div id="hakkimda-modal">
     <div class="hakkimda-kutu">
         <span class="kapat-x" onclick="hakkimdaKapat()">×</span>
         
-        <img src="profil.jpg" alt="Profil" class="profil-resmi" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+        <img src="Images/profil.jpg" alt="Profil" class="profil-resmi" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
         
         <h2 style="margin: 10px 0; color: var(--primary);">Kadir Ege Aslan</h2>
         <p style="color: #666; font-style: italic;">Geliştirici & Tasarımcı</p>
         <p style="color: #3a2626; font-style: italic;">Okul Numarası: 256502059</p>
+        <p style="color: #000000; font-style: italic;">Bölüm: Bilgisayar Programcılığı</p>
         <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
         
-        <p style="font-size: 0.95rem; line-height: 1.6;">
+        <p style="font-size: 1rem; line-height: 1.6;">
             Bu proje kapsamında, matematiğin yalnızca formüllerden ibaret olmadığını göstermek amacıyla bir web sitesi geliştirdim.
              Kodlama becerilerimi kullanarak hazırladığım bu sitede, matematiğin tarihsel gelişimi,
               diğer bilimlerle olan ilişkisi ve düşünsel temelleri sade ve anlaşılır bir dille ele alınmaktadır. 
-            Amacım, matematiği ezberlenen bir ders olmaktan çıkarıp arkasındaki mantığı ve insan hikâyesini ortaya koymaktır.
-        </p>
-        <p style="color: #000000; font-style: italic;">Bölüm: Bilgisayar Programcılığı</p>
+            Amacım, matematiği ezberlenen bir ders olmaktan çıkarıp arkasındaki mantığı ve insan hikâyesini ortaya koymaktır.        </p>
+
+        <div class="sosyal-linkler">
         </div>
     </div>
 </div>
+</div>
 </body>
 <script src="main.js"></script>
-
 </html>
