@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematik Evreni | Final Proje</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Merriweather:ital,wght@0,300;0,700;1,300&family=Great+Vibes&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="preloader"><div class="loader-symbol">∑</div><div class="loader-text">YÜKLENİYOR...</div></div>
+
+    <div class="bg-symbols">
+        <div class="symbol s1">π</div><div class="symbol s2">∑</div><div class="symbol s3">∫</div><div class="symbol s4">∞</div><div class="symbol s5">x</div>
+    </div>
+
+    <button id="arsiv-btn" class="nav-btn" onclick="arsivAc()">📚 Kütüphane</button>
+    <button id="hakkimda-btn" class="nav-btn" onclick="hakkimdaAc()">👨‍💻 Hakkımda</button>
+    <button id="mod-btn" class="nav-btn" onclick="modDegistir()">🌙</button>
+
+    <header class="hero">
+        <h1 class="reveal">Matematiğin Evreni</h1>
+        <div class="soz-kutusu reveal">
+            <p id="hero-soz" style="font-size: 1.1rem; font-style:italic;">Yükleniyor...</p>
+            <button onclick="yeniSozGetir()" style="background:transparent; border:1px solid white; color:white; padding:5px 15px; border-radius:15px; cursor:pointer; font-size:0.9rem;">🔄 Değiştir</button>
+        </div>
+        <button class="kesfet-btn reveal" onclick="document.getElementById('amac-bolumu').scrollIntoView({behavior:'smooth'})">Keşfetmeye Başla ▼</button>
+    </header>
+
+    <section id="amac-bolumu">
+        <div class="amac-karti reveal">
+            <h2 style="color: var(--primary);">Bu Sitenin Amacı Nedir?</h2>
+            <p style="line-height: 1.8; margin-bottom: 20px;">
+                Matematik sadece sayılardan ibaret değildir; evrenin dilidir. Bu site, Babil'den günümüze matematiğin büyüleyici serüvenini, sıkıcı olmayan bir dille anlatmak için tasarlandı.
+            </p>
+            <button onclick="quizBaslat()" style="margin-top:20px; padding:15px 40px; background:var(--accent); color:white; border:none; border-radius:10px; font-size:1.1rem; cursor:pointer; font-weight:bold; width: 100%;">🧠 Bilgini Test Et</button>
+        </div>
+    </section>
+
+    <section id="laboratuvar">
+        <h2 style="text-align:center; margin-bottom:30px; color:var(--text);" class="reveal">Matematik Laboratuvarı 🧪</h2>
+        <div class="lab-container">
+            <div class="lab-karti reveal">
+                <h3 style="color: var(--primary);">01 | Taban Çevirici</h3>
+                <p style="font-size:0.9rem; opacity:0.8;">Decimal > Binary & Hex</p>
+                <input type="number" class="lab-input" placeholder="Sayı gir (örn: 255)" oninput="cevirici(this.value)">
+                <div class="sonuc-kutusu"><span class="sonuc-etiket">BIN:</span><span id="bin-sonuc">0</span></div>
+                <div class="sonuc-kutusu"><span class="sonuc-etiket">HEX:</span><span id="hex-sonuc">0</span></div>
+            </div>
+            <div class="lab-karti reveal">
+                <h3 style="color: var(--accent);">02 | Altın Oran (φ)</h3>
+                <p style="font-size:0.9rem; opacity:0.8;">1.618 Oranını Hesapla</p>
+                <input type="number" class="lab-input" placeholder="Kısa kenar (örn: 100)" oninput="altinOran(this.value)">
+                <div class="sonuc-kutusu"><span class="sonuc-etiket">UZUN:</span><span id="uzun-sonuc">0</span></div>
+                <div class="sonuc-kutusu"><span class="sonuc-etiket">TOPLAM:</span><span id="toplam-sonuc">0</span></div>
+            </div>
+        </div>
+    </section>
+
+    <div style="height: 100px;"></div>
+
+    <div id="quiz-modal">
+        <div class="quiz-kutu">
+            <div id="quiz-soru-alani">
+                <h3 id="soru-baslik">Soru 1/10</h3>
+                <p id="soru-metni" style="font-size:1.1rem; font-weight:600; margin-bottom:20px;">...</p>
+                <div id="secenekler"></div>
+            </div>
+            <div id="quiz-sonuc-alani" style="display:none;">
+                <h2>Bitti! 🥳</h2>
+                <p style="font-size:2rem; font-weight:bold; color:var(--primary);">Puan: <span id="puan">0</span></p>
+                <button onclick="document.getElementById('quiz-modal').style.display='none'" style="padding:10px 30px; background:#333; color:white; border:none; border-radius:5px; cursor:pointer;">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tam-ekran-arsiv">
+        <div style="padding:20px; background:#eee; display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; color:#333; font-size: 1.2rem;">Ansiklopedi</h2>
+            <button onclick="arsivKapat()" style="background:#ff4757; color:white; border:none; padding:8px 15px; cursor:pointer; border-radius:5px; font-weight:bold;">KAPAT</button>
+        </div>
+        <div class="arsiv-body">
+            <div class="arsiv-menu">
+                <button class="arsiv-btn" onclick="konuGoster('babil')">🏛️ Mezopotamya</button>
+                <button class="arsiv-btn" onclick="konuGoster('misir')">📐 Mısır & Piramit</button>
+                <button class="arsiv-btn" onclick="konuGoster('yunan')">🏺 Antik Yunan</button>
+                <button class="arsiv-btn" onclick="konuGoster('Matematik Nedir? Nasıl Doğmuştur?')">Matematik Nedir? Nasıl Doğmuştur?</button>
+                <button class="arsiv-btn" onclick="konuGoster('Diger Bilimlerden Farki Nedir?')">Diğer Bilimlerden Farkı Nedir?</button>
+                <button class="arsiv-btn" onclick="konuGoster('Matematik Problemlerine ihtiyac Var mi?')">Matematik Problemlerine İhtiyaç Var mı?</button>
+</button>
+
+            </div>
+            
+            <div class="arsiv-icerik">
+                
+                <div id="babil" class="arsiv-konu"> 
+                    <h1>Babil Matematiği</h1> 
+                    <p>Babil matematiği, erken Sümerler döneminden MÖ 539'da Babil'in düşüşüne kadar Mezopotamya'da geliştirilen matematiği ifade eder.</p> 
+                    <p>Dicle ve Fırat vadileri arasındaki verimli topraklar, insan uygarlığının beşiğidir.</p>
+                    
+                    <img src="Babil-Tablet.jpg" alt="Babil Tableti" class="konu-resmi"> 
+                    <p style="text-align:center; font-size:0.9rem; color:#666; margin-top:-10px;">*Ünlü YBC 7289 Tableti (Kök 2 hesabı)*</p> 
+                    
+                    <p>Sümerler ve Babillilerin en önemli katkısı, çivi yazısıyla yazı sistemini geliştirmeleriydi; bu ilerleme, kayıt tutmayı ve bilginin nesilden nesile aktarılmasını mümkün kıldı. Kil tabletler üzerine kaydedilmiş bu kayıtların çoğu arkeologlar tarafından keşfedilmiş ve tercüme edilerek bu eski insanların günlük yaşamları hakkında bilgiler ortaya çıkarılmıştır.</p> 
+                    
+                    <p>Bu tabletler, modern tarihçilerin geçmişe inmelerine ve bu insanların gelişmiş matematiksel tekniklerini, yani daha sonraki Yunanlıların matematik alanındaki atlamasının temelini araştırmalarına olanak tanır. Bu gelişmiş uygarlığın matematiğini genellikle Babil matematiği olarak adlandırsak da, Sümerler ve Asurlular gibi diğer büyük kültürler de Bereketli Hilal'de gelişmiş bir uygarlığın oluşmasına katkıda bulunmuştur.</p> 
+
+                    <h1>Babil Rakamları - Astronomi ve 60 Tabanı</h1>
+        
+                    <div class="sag-gorsel-kutusu">
+                        <img src="Babil-Rakamları.jpg" alt="Babil Rakamları Tablosu" class="konu-resmi">
+                        <p class="gorsel-aciklama">Babil Rakamları (Kamu Malı)</p>
+                    </div>
+
+                    <p>Babilliler, birler, onlar ve yüzler için semboller kullanarak sayıları yazmak için bir sistem geliştirdiler; bu da muhtemelen günlük yaşamlarında ondalık sistemi kullandıklarını gösteriyor. Bu sistem, büyük sayıları rahatça kullanmalarına ve tüm temel aritmetik işlemleri gerçekleştirmelerine olanak sağladı. Bununla birlikte, sıfır için bir rakam kullandıklarına dair hiçbir kanıt yok.</p>
+
+                    <p>Ancak Sümerler de <strong>60 tabanlı</strong> bir sayma sistemi kullanmışlardır; bu nedenle hala bir daireyi 360 dereceye bölüyor ve saatleri, dakikaları ve saniyeleri sayıyoruz. Bu altmışlık sistem, ağırlık ve ölçülerde, astronomide ve matematiksel fonksiyonların geliştirilmesinde kullanılmıştır. Örneğin, bir tablette 60²'ye kadar olan tüm sayıların kareleri listelenmiştir ve 60'tan büyük sayılar için altmışlık sayı sistemi kullanılmıştır - 64, 60+4 olarak, 81 ise 60+21 olarak yazılmıştır...</p>
+                    
+                    <div class="sag-gorsel-kutusu">
+                        <img src="sumerian-units-of-measurement.jpg" alt="Pisagor üçlülerini listeleyen Babil tableti" class="konu-resmi">
+                        <p class="gorsel-aciklama">Pisagor üçlülerini listeleyen Babil tableti (Kamu Malı)</p>
+                    </div>   
+        
+                    <p>Sayıları sıralamak için konum kullanma fikri, konum ilkesi olarak bilinir ve bu tür bir sistemin bilinen ilk kullanımıdır; ondalık sistemimizin temelini oluşturur. Bu fikir, MS beşinci veya altıncı yüzyıla kadar kayboldu ve batı kültürü, matematiksel işlemler için karmaşık ve zor bir sistem olan hantal Roma sayı sistemini kullandı. Roma'nın sayı sistemi, sıfırı anlamış olabileceklerini ima eder, ancak daha fazla kanıt bulunana kadar bu büyük ölçüde varsayımsal kalır.</p>
+                    
+                    <p>Bu 60 tabanlı sistem, Babillilerin kesirleri kullanmasına da olanak sağladı ve yarımı '30' (30 altmışta bir) ve çeyreği '15' (15 altmışta bir) olarak ifade ettiler. Bu sistem Yunanistan'a da yayıldı ve ondalık sistem matematikçiler için tercih edilen dil haline gelene kadar yüzyıllarca kesirleri ifade etmenin tercih edilen yolu oldu.</p>
+       
+                    <p>Altmışlık sistemin kullanılmasının kabul edilen nedeni, astronomiye dayanması ve Babillilerin mevsimlerin dönüşünü izlemek ve ekim için en uygun zamanları tahmin etmek için doğru takvimler geliştirme arzusudur; bu, güçlü bir tarım temeline sahip bir kültür için son derece önemlidir. Başlangıçta Babilliler bir yılda 360 gün olduğuna inanıyorlardı ve bu, sayı sistemlerinin temelini oluşturuyordu; bunu derecelere böldüler ve bu, güneşin gökyüzündeki günlük hareketini temsil ediyordu. Daha sonra bunu dereceleri dakikalara bölerek daireleri ölçmeye dönüştürdüler. Astronomi, geometri ve günü saatlere, dakikalara ve saniyelere bölme sistemimizin tamamı tarihin bu döneminden kaynaklanmaktadır.</p>
+                    
+                    <div class="sag-gorsel-kutusu">
+                        <img src="royal-gur-of-akkad.jpg" alt="Akkad Kraliyet Guru" class="konu-resmi">
+                        <p class="gorsel-aciklama">Akkad Kraliyet Guru - Sümer ölçü birimlerini gösteriyor</p>
+                    </div>
+
+                    <p>Sümerler, Babilliler ve Fırat vadisinin diğer sakinleri, aritmetiğin temellerini, sayısal gösterimi ve kesirleri kullanarak şüphesiz ki bazı gelişmiş matematiksel ilerlemeler kaydettiler. Çalışmaları Yunanlılar tarafından benimsendi ve Yunanlıların, Anadolu'dan (Türkiye) Çin'e İpek Yolu boyunca yayılan fikirlerden Babil kültüründen matematiksel teknikler öğrenmiş olmaları muhtemeldir. Büyük İskender'in, bölgeyi fethettikten sonra Babil'den Aristoteles'e astronomik kayıtlar gönderdiği bilinmektedir.</p>
+            
+                    <p>Geometri alanında, derece sisteminin geliştirilmesinin dışında, Babilliler pek bir katkıda bulunmamış, kaba yaklaşımları tercih etmişlerdir ve binalarını inşa ederken geometrik teknikler kullandıklarına dair çok az kanıt vardır; deneme yanılma yöntemini tercih etmişlerdir. Elbette, bu gelişmiş kültür hakkında çok az şey bilindiğinden, matematiksel teknikleri hakkında daha fazla bilgi ortaya çıkaracak kanıtlar henüz ortaya çıkmamıştır.</p>
+                    
+                    <div style="clear: both;"></div>
+                </div>
+            <div id="Diger Bilimlerden Farki Nedir?" class="arsiv-konu">
+    <h2>Matematik: Bilimlerin Kraliçesi mi Yoksa Hizmetkarı mı? Diğerlerinden Farkı Ne?</h2>
+
+<p>Üniversiteye başlayıp akademik dünyaya, özellikle de bilgisayar programcılığı bölümüne adım attığımda kafamda bazı şeyler değişmeye başladı. Eskiden Lisedeyken "Sayısalcılar" diye genel bir kümemiz vardı; Fizik, Kimya, Biyoloji ve Matematik hepsi aynı torbadaydı bizim için. Hepsinde formül vardı, hepsinde işlem yapıyorduk, hepsinde sonuç buluyorduk. Ama işin mutfağına, yani tabiri caizse "kaynak kodlarına" indiğimde durumun hiç de öyle olmadığını fark ettim. Hatta dürüst olayım, bu konuyu araştırırken birkaç gece beynimin yandığını hissettim.</p>
+
+<p>Matematik, diğer tüm pozitif bilim dallarından (Fizik, Kimya, Astronomi, Biyoloji vb.) çok keskin, hatta bıçak sırtı bir çizgiyle ayrılıyor. Bu fark, sadece dersin içeriğinde değil; gerçeğe ulaşma yönteminde, kesinlik anlayışında ve zamana karşı duruşunda gizli. Gelin, bir programcı adayı gözüyle, kahvemizi alıp bu derin farklara, biraz da "bizim dilimizden" yakından bakalım.</p>
+
+<h3>1. Deney Tüpü vs. Saf Akıl: Yöntem Farkı</h3>
+
+<p>Fizik, Kimya veya Biyoloji gibi bilimler, literatürde <strong>"Deneysel" (Empirik)</strong> bilimler olarak geçer. Yani bu bilimler, gerçeği bulmak için doğaya muhtaçtır. Bir fizikçi yerçekimini anlamak için elmayı yere düşürmek zorundadır. Bir biyolog hücreyi anlamak için mikroskoba bakmak zorundadır. Yani dış dünyadan veri toplarlar. Yöntemleri "Tümevarım"dır. Parçaları izler, genele varmaya çalışırlar.</p>
+
+<p><em>(Burada kendi bölümümden bir örnek vermem gerekirse; bu durum, bir kodun çalışıp çalışmadığını anlamak için sürekli "Run" tuşuna basıp deneme-yanılma yapmaya benziyor. Hata verirse düzeltirsin, vermezse "tamam çalışıyor" dersin.)</em></p>
+
+<p>Ama matematik... Matematik laboratuvarında pahalı teleskoplar, patlayan deney tüpleri veya kobay fareler yoktur. Matematikçinin laboratuvarı kendi zihnidir. Matematik, doğaya bakmaz. Deney yapmaz. Matematik <strong>"Tümdengelim"</strong> yöntemini kullanır. Bir matematikçi, "Bir üçgenin iç açıları toplamı 180 derecedir" dediğinde, eline iletki alıp dünyadaki bütün üçgenleri tek tek ölçmesine gerek yoktur. Hatta bir tane bile ölçmesine gerek yoktur. Bunu mantıksal aksiyomlarla kağıt üzerinde ispatladığı (kanıtladığı) an, iş bitmiştir. Milyon yıl sonra Andromeda galaksisinde bir uzaylı da üçgen çizerse, o da 180 derece olacaktır. Sürpriz yoktur, "acaba" yoktur.</p>
+
+<h3>2. "Update" Gelmeyen Tek Gerçek: Mutlak Kesinlik</h3>
+
+<p>Bilim tarihi, aslında çöpe atılmış teorilerin devasa bir mezarlığı gibidir. Bu kötü bir şey değil, bilimin doğası bu. Bilim "yanlışlanabilir" olmak zorundadır. Bir zamanlar "Evrenin merkezi Dünya'dır" diyorduk, sonra "Pardon, Güneş'miş" dedik, sonra "O da değilmiş, merkez yokmuş" dedik. Newton Fiziği 300 yıl boyunca harikaydı, her şeyi açıkladığını sandık. Ama sonra Einstein diye bir adam çıktı, "Işık hızına yaklaşırsan Newton'ın kuralları patlar" dedi ve Görelilik Teorisini ortaya attı. Yani bilimde doğrular "geçicidir". Daha iyi bir açıklama gelene kadar geçerli olan "yamalardır".</p>
+
+<p><em>(Bunu bizim yazılım dünyasına uyarlarsak; Fizik ve Kimya sürekli "Update" alan, versiyon yükselten (v1.0, v2.0) programlar gibidir. Sürekli bug'lar temizlenir, yeni özellikler eklenir.)</em></p>
+
+<p>Ancak matematikte "güncelleme" diye bir şey yoktur. Pisagor Teoremi (a² + b² = c²), M.Ö. 500 yılında Antik Yunan'da ne kadar doğruysa, bugün benim bilgisayarımın ekran kartı hesaplamalarında da o kadar doğrudur, 5000 yıl sonra Mars kolonilerinde de o kadar doğru kalacaktır. Einstein fiziği değiştirebilir ama Pisagor'u yanlışlayamaz. Matematiksel bir ispat yapıldığında, o artık sonsuza kadar mühürlenmiş, zamanın ve mekanın ötesinde mutlak bir gerçektir. Bu yüzden matematik, bilimlerin en güvenilir limanıdır.</p>
+
+<h3>3. Evrenden Bağımsız Bir "Simülasyon"</h3>
+
+<p>Diğer bilimler evrene göbekten bağlıdır. Evren yok olursa; inceleyecek madde kalmazsa Kimya biter, canlı kalmazsa Biyoloji biter, enerji ve hareket kalmazsa Fizik biter. Onlar, var olan fiziksel dünyayı açıklamaya çalışan muhabirler gibidir.</p>
+
+<p>Matematik ise kendi evrenini kendi yaratır. Fiziksel dünyada "mükemmel çember" diye bir şey aslında yoktur. En pürüzsüz bilardo topuna bile elektron mikroskobuyla baksanız dağlar, vadiler, girintiler çıkıntılar görürsünüz. Yani doğada mükemmel geometri yoktur. Ama matematikçiler, zihinlerinde kusursuz, pürüzsüz çemberlerle işlem yaparlar. Doğada karşılığı olmayan şeyleri de (örneğin 4. boyut, 11. boyut veya sanal sayılar) kurgulayabilir ve üzerinde çalışabilirler.</p>
+
+<p><em>(Açıkçası burası biraz beyin yakıyor ama şöyle düşünün: Matematikçi, kurallarını (aksiyomlarını) kendisi yazdığı bir oyunun kurucusudur. Bir oyun motoru (Unity veya Unreal Engine) gibidir. Yerçekimini sıfır yapabilir, zamanı geri alabilir. Fizikçi ise o oyunun içindeki oyuncudur, kurallara uymak zorundadır.)</em></p>
+
+<h3>4. Bilimlerin İşletim Sistemi (OS)</h3>
+
+<p>Tüm bu "bağımsızlık" ve "farklılık" iddialarına rağmen, garip bir şekilde diğer bilimler matematik olmadan nefes bile alamazlar. Fizikçi doğayı anlamak için formüllere, Kimyacı reaksiyon hızını ölçmek için türeve, Biyolog bakteri popülasyonunu hesaplamak için üslü sayılara muhtaçtır. Galileo'nun o meşhur lafına geri dönüyoruz: "Evren matematik diliyle yazılmıştır."</p>
+
+<p>Biz yazılımcıların tabiriyle durumu şöyle özetleyebilirim: Diğer bilimler (Fizik, Kimya, Astronomi vb.) bilgisayardaki <strong>uygulamalar (software)</strong> gibidir. Instagram gibi, Photoshop gibi... Sürekli güncellenirler, değişirler, bazen hata verirler, bazen çökerler. Matematik ise bu uygulamaların üzerinde çalıştığı <strong>İşletim Sistemi (Windows, Linux, MacOS)</strong> ve hatta donanımın çalışma mantığıdır (Binary Kod). Uygulamalar değişebilir ama alttaki mantıksal yapı (1'ler ve 0'lar, Mantık kapıları) sabittir ve hatasız çalışmak zorundadır.</p>
+
+<h3>5. Sonuç: Keşif mi, İcat mı?</h3>
+
+<p>Bütün bu araştırmalarımın sonunda, cevabını hala tam veremediğim o büyük felsefi soruyla baş başa kaldım. Bu soru, matematiği diğerlerinden ayıran son noktadır.</p>
+
+<p>Bir biyolog yeni bir balık türü "keşfeder", çünkü o balık zaten okyanusta yüzüyordur. Bir mühendis yeni bir motor "icat eder", çünkü o motoru sıfırdan yapmıştır. Peki matematikçi ne yapar? Pisagor teoremini, Pi sayısını veya asal sayıları biz mi uydurduk (icat ettik), yoksa onlar evrenin dokusunda, yıldızların tozunda zaten şifreli bir şekilde var mıydı da biz mi bulduk (keşfettik)?</p>
+
+<p><em>(Şahsi fikrimi sorarsanız; biz matematiği icat etmedik. O, bizden önce de oradaydı, bizden sonra da orada olacak. Biz sadece evrenin kaynak kodlarını okumayı öğrenen meraklı öğrencileriz. Ve bu sitede yapmaya çalıştığım şey de tam olarak bu: O kaynak kodlarını biraz olsun anlaşılır kılmak.)</em></p>
+
+        </div>
+            <div id="Matematik Problemlerine ihtiyac Var mi?" class="arsiv-konu">    
+             <h2>Matematiksel Epistemolojide Bağlamsallık Yanılgısı: Saf Aklın Fenomenolojisi ve Pragmatizmin Eleştirisi</h2>
+
+<p>İnsanlık tarihinin entelektüel evrimi incelendiğinde, matematiksel düşüncenin gelişimi ile medeniyetin soyutlama kapasitesi arasında doğrudan ve yadsınamaz bir korelasyon olduğu görülür. Günümüz pedagojik yaklaşımlarında ve popülist bilim söylemlerinde sıkça karşımıza çıkan, matematiği sürekli olarak <i>"günlük hayat problemleri"</i> (real-world problems) üzerinden meşrulaştırma çabası, esasen bu disiplinin ontolojik doğasına ve insan zihninin potansiyeline yapılmış büyük bir haksızlıktır. Matematiğin öğrenilmesinde ve içselleştirilmesinde günlük hayat pratiklerinin zorunlu bir ön koşul olduğu varsayımı, bilimin tarihsel gerçekliğiyle örtüşmeyen, <b>indirgemeci</b> ve faydacı (utiliteryan) bir yaklaşımdır. Bu makale, matematiğin neden fiziksel gerçeklikten bağımsız, kendine referanslı (self-referential) bir mantık sistemi olarak ele alınması gerektiğini; soyutlamanın, genellemenin ve aksiyomatik düşüncenin, bakkal hesabının çok ötesinde, evrensel bir hakikat arayışı olduğunu derinlemesine analiz edecektir.</p>
+
+<p>Matematiği "hayatın içinden" örneklerle sınırlamak, okyanusu bir bardak suya sığdırmaya çalışmak gibidir. Bardaktaki su okyanustan bir parçadır, evet; ancak okyanusun derinliğini, basıncını, ekosistemini ve devasa akıntılarını bardaktaki suya bakarak anlamak imkansızdır. Benzer şekilde, matematiğin <b>Hilbert Uzayları</b>, <b>Kategori Teorisi</b> veya <b>Topoloji</b> gibi derin sularını, günlük hayatın sığ kıyılarında gezinerek keşfetmek mümkün değildir. Zihin, somut olanın prangalarından kurtulduğu an, matematiğin asıl evrenine giriş yapar.</p>
+
+<h2>1. Ontolojik Ayrım: Platonik İdealar Dünyası ve Fiziksel Gölgeler</h2>
+
+<p>Antik Yunan filozofu Platon'un meşhur <i>Mağara Alegorisi</i>, matematik eğitimi için kusursuz bir analoji sunar. Mağaranın duvarına yansıyan gölgeler, bizim günlük hayatta karşılaştığımız fiziksel nesnelerdir (elma, armut, köprü, bina). Ancak bu gölgelerin kaynağı olan "gerçek nesneler", yani İdealar, saf matematiksel formlardır. Bir mühendisin yaptığı köprü, kusurlu bir fiziksel yapıdır ve zamanla yıkılabilir; ancak o köprünün statiğini hesaplayan diferansiyel denklemler, zaman ve mekandan bağımsız, ebedi ve mutlak doğrulardır. Matematiği iyi öğrenmek, duvardaki gölgelerle (günlük hayat problemleri) oyalanmayı bırakıp, mağaranın dışına çıkarak güneşe (saf teoriye) bakabilme cesaretini gerektirir.</p>
+
+<h3>Somutlaştırmanın Bilişsel Tuzakları</h3>
+
+<p>Eğitim bilimlerinde <i>"Cognitive Load Theory"</i> (Bilişsel Yük Teorisi) bağlamında yapılan araştırmalar, matematiği aşırı bağlamsallaştırmanın (contextualization), öğrenci üzerinde <b>"gereksiz bilişsel yük"</b> (extraneous cognitive load) oluşturduğunu göstermektedir. Şöyle bir örnek düşünelim: Bir öğrenciye ikinci dereceden denklemleri öğretmek istiyorsunuz. Eğer soruyu "Bir topun havaya atılması, rüzgar direnci ve yer çekimi ivmesi" üzerinden sorarsanız, öğrenci matematiksel işlemden önce fiziksel senaryoyu, topun hareketini ve hikayeyi anlamlandırmak zorunda kalır. Bu durum, zihnin asıl odaklanması gereken cebirsel manipülasyonlardan (diskriminant hesabı, kök bulma) uzaklaşmasına neden olur. Oysa saf matematiksel form ($ax^2 + bx + c = 0$) sunulduğunda, zihin doğrudan mantıksal yapıya odaklanır ve saf aklın gücünü kullanır. <b>Soyutlama</b>, zihni gereksiz detaylardan arındırma sanatıdır ve matematik, bu sanatın zirvesidir.</p>
+
+<h2>2. Matematiğin "Mantıksız" Etkinliği: Wigner'in Paradoksu</h2>
+
+<p>Nobel ödüllü fizikçi Eugene Wigner, 1960 yılında yazdığı <i>"The Unreasonable Effectiveness of Mathematics in the Natural Sciences"</i> (Matematiğin Doğa Bilimlerinde Makul Olmayan Etkinliği) başlıklı makalesinde, matematiğin en şaşırtıcı özelliğine dikkat çeker: Tamamen zihinsel bir oyun olarak, hiçbir pratik amaç güdülmeden geliştirilen teoriler, yüzyıllar sonra fiziksel evrenin en derin sırlarını açıklayan anahtarlar haline gelmektedir. Bu durum, matematiğin günlük hayattan türetilmediğini, aksine günlük hayatın (ve evrenin) matematiksel bir altyapıya sahip olduğunu gösterir.</p>
+
+<p>Tarih, "günlük hayatta ne işe yarayacak?" sorusunu sormadan çalışan dehaların, medeniyeti dönüştüren keşifleriyle doludur:</p>
+
+<p>
+    <b>Riemann Geometrisi ve Görelilik:</b> 19. yüzyılda Bernhard Riemann, Öklid geometrisinin aksiyomlarını değiştirerek, eğri yüzeyler üzerinde geçen hayali bir geometri kurguladı. O dönemde bu çalışmanın hiçbir "günlük hayat" karşılığı yoktu; tamamen entelektüel bir egzersizdi. Ancak 60 yıl sonra Albert Einstein, Genel Görelilik Teorisi'ni formüle ederken, evrenin bükülmüş uzay-zaman dokusunu açıklamak için Riemann'ın bu "soyut ve işe yaramaz" görünen matematiğine muhtaçtı. Eğer Riemann "bakkal hesabıyla" uğraşsaydı, bugün GPS teknolojisine veya evren anlayışımıza sahip olamayabilirdik.<br><br>
+    <b>Sayılar Teorisi ve Kriptografi:</b> Godfrey Harold Hardy, hayatı boyunca matematiğin herhangi bir savaşta veya ticarette kullanılmayacak kadar "saf" olmasıyla övünmüştü. Özellikle asal sayılar üzerine yaptığı çalışmaların hiçbir pratik değeri olmadığına inanıyordu. Fakat bugün, internet bankacılığından askeri iletişime kadar her türlü dijital güvenliği sağlayan RSA şifreleme algoritmaları, Hardy'nin o "saf" sayılar teorisi üzerine kuruludur.
+</p>
+
+<h2>3. Dilbilimsel Analoji: Semantik ve Sentaks Ayrımı</h2>
+
+<p>Matematiği bir dil olarak kabul edersek, günlük hayat problemleri bu dilin <i>semantiğini</i> (anlam bilimini), saf matematik ise <i>sentaksını</i> (söz dizimini/gramerini) oluşturur. Bir dili iyi öğrenmek için, o dilin kurallarını, yapısını ve içsel mantığını kavramak gerekir; sadece "turist gibi" cümle kalıpları ezberlemek (bağlamsal öğrenme) kişiyi o dilde yetkin kılmaz. Matematikte de durum farksızdır. Bir türev işlemini sadece "hız-zaman grafiğinin eğimi" olarak öğrenen bir öğrenci, türevi sadece fiziksel bir hareketle sınırlar. Oysa türev, bir fonksiyonun anlık değişim oranıdır ve bu fonksiyon ekonomide marjinal maliyet, biyolojide bakteri üreme hızı veya bilgisayar bilimlerinde bir yapay zeka algoritmasının optimizasyonu olabilir.</p>
+
+<p>Bu nedenle, matematiğin <b>operasyonel yetkinliği</b>, bağlamdan bağımsız sembolik manipülasyon becerisine dayanır. $f(x)$ sembolü, ne bir elmadır ne de bir arabadır; o, dönüştürülebilen, evrilebilen ve başka fonksiyonlarla etkileşime girebilen soyut bir varlıktır. Bu varlığı "günlük hayata" indirgemek, onun potansiyelini öldürmek demektir. Matematik eğitimi, öğrenciye sembollerin dansını öğretmelidir, sembollerin temsil ettiği nesnelerin hikayesini değil.</p>
+
+<h2>4. Sonsuzluk, İrrasyonellik ve Gerçekliğin Sınırları</h2>
+
+<p>Matematiğin günlük hayattan kopmak zorunda olduğu en belirgin nokta, <b>sonsuzluk</b> kavramıdır. Fiziksel dünyada, bildiğimiz kadarıyla "sonsuz" bir nesne yoktur. Günlük hayatta sonsuz elma, sonsuz zaman veya sonsuz uzunlukta bir ip ile karşılaşamayız. Ancak matematik, Georg Cantor'un Kümeler Teorisi ile gösterdiği üzere, sadece sonsuzluğu değil, "sonsuzlukların büyüklüklerini" (kardinalite) bile sınıflandırabilir. $\aleph_0$ (Alef-sıfır) ve Süreklilik Hipotezi gibi kavramlar, insan zihninin fiziksel gerçekliği aşarak metafiziksel bir aleme dokunmasıdır.</p>
+
+<p>Benzer şekilde, $\sqrt{-1}$ (sanal sayı birimi $i$), günlük hayatta "yoktur". Hiçbir banka hesabında $3i$ TL göremezsiniz veya manavdan $\sqrt{-1}$ kilo domates isteyemezsiniz. Eğer matematiği günlük hayata endekslersek, sanal sayıları ve buna bağlı olarak Karmaşık Analizi (Complex Analysis) müfredattan çıkarmamız gerekir. Oysa ki, bugün elektrik mühendisliğinden kuantum mekaniğine, sinyal işlemeden aerodinamiğe kadar modern teknolojinin bel kemiği, bu "gerçek olmayan" sayılar üzerine kuruludur. Bu paradoks, matematiğin gerçeği açıklamak için gerçeğin ötesine geçmek zorunda olduğunun en büyük kanıtıdır.</p>
+
+<h2>5. Estetik Haz ve Entelektüel Tatmin</h2>
+
+<p>Son olarak, matematiğin bir sanat dalı olarak ele alınması gerekliliği vurgulanmalıdır. Bir müzisyen notaları öğrenirken "bu nota günlük hayatta ne işime yarayacak?" diye sormaz; armoninin güzelliği kendi başına bir amaçtır. Matematikçiler için de <b>Euler Özdeşliği</b> ($e^{i\pi} + 1 = 0$), içerdiği derinlik ve estetik sadelik nedeniyle, herhangi bir pratik uygulamadan bağımsız olarak değerlidir. Beş temel matematiksel sabiti ($0, 1, e, i, \pi$) tek bir eşitlikte birleştiren bu formül, evrensel bir şiirdir. Matematiği iyi öğrenmek, bu şiirsel yapıyı hissedebilmektir.</p>
+
+<p>Bertrand Russell bu durumu şöyle ifade etmiştir: <i>"Matematik, doğru bir şekilde ele alındığında, sadece hakikati değil, yüce bir güzelliği de barındırır; heykel sanatının soğuk ve sade güzelliği gibi, insan doğasının zayıf yanlarına hitap etmeyen, müziğin veya resmin göz alıcı süslerinden arınmış, ancak son derece saf ve sadece en büyük sanatın gösterebileceği o sert mükemmelliğe sahip bir güzellik."</i></p>
+
+<h3>Sonuç: Soyutlamanın Özgürleştirici Gücü</h3>
+
+<p>Özetle, "günlük hayat problemleri", matematiğin devasa sarayına girmek için kullanılan bir paspas olabilir, ancak sarayın kendisi değildir. Matematiksel düşünce, insan zihninin <b>yerçekiminden kurtulup</b>, saf mantığın atmosferinde süzülme yeteneğidir. Eğitim sistemleri, öğrenciyi sürekli yere (günlük hayata) çekmek yerine, onlara kanat takıp soyutlamanın göklerine yükseltmelidir. Gerçek kavrayış, $2+2=4$ hesabında değil, bu eşitliğin neden evrenin her köşesinde, her zaman ve her koşulda geçerli olduğunun <i>apriori</i> bilgisindedir. Bilim ve teknoloji, pragmatistlerin değil, hayalperest teorisyenlerin omuzlarında yükselir.</p>   
+
+                
+            </div>
+<div id="misir" class="arsiv-konu">
+    <h1>Mısır Piramitleri ve Matematik</h1>
+    
+    <div class="tam-ekran-arsiv">
+        <img src="misir-piramitleri-696x405.jpg" alt="Mısır Piramitleri" class="konu-resmi">
+        <p class="gorsel-aciklama">Giza Piramitleri</p>
+    </div>
+
+<p>Yeryüzünde en esrarengiz yapılardan bir tanesi şüphesiz Mısır Piramitleridir. Nasıl yapıldığı hakkında birçok görüş ortaya atılsa da dönemin şartları göz önüne alındığında esrarengiz olaylar bizleri karşılamaktadır. Bu yazıda o esrarengizliğin matematiksel boyutları üzerinde duracağız. En az 4 bin yıllık olduğu tahmin edilen bu piramitler hakkında uzaylılar tarafında yapıldığı gibi bir iddia çok enterasan bir ispat yöntemi ile insanları inandırmaya çalışılmaktadır. Bu ispatların hepsini tartışacağız. Yıllarca birçok araştırmacının, maceraperestlerin, filozofların uğrak yeri haline gelmiş ve üzerinde belki yıllarca araştırma yapılmıştır.
+.</p>
+     <br>
+     <p>Piramitler bir geometrik eser niteliğinde insanoğlunu büyülemektedir. Üç önemli piramit Büyük Piramit, Giza Piramidi, Keops Piramidi Mısır’ın geniş arazilerinde tarihin en yüksek mimarisi unvanını kaybedeli fazla yıl olmamıştı. Aslında Platon’un akademisine yazdığı “Geometri bilmeyenler giremez – Asıl cümle: Kim ki geometri bilmiyor, içeri girmesin” ibaresini piramitlerin girişlerine yazmak gerekti. Aşağıda bahsedeceğimiz tüm matematiksel olgular Mısır Bilimler Akademisi tarafından onaylanmış gerçeklerin tam da kendisidir.</p>
+    <p>Mısır Piramitlerinin yükseklik, taban alanı ve yükselik katsayıları matematikte en önemli üç sabiti içerir. Bunlar pi, fi ve e sayılarıdır. Araştırmacı J.H.Cole yaptığı standart ölçümler sonucu 51 derecelik 51 saniyelik açı ile hesaplama yapmıştır.
+</p>
+ <div class="sag-gorsel-kutusu">
+        <img src="misir-piramitleri-ve-matematik.jpg" alt="Mısır Piramitleri" class="konu-resmi">
+        <p class="gorsel-aciklama">Piramitler</p>
+    </div>
+    <div style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 10px; margin: 15px 0; font-family: 'Share Tech Mono', monospace;">
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 5px;">4 x 51.85° / 76.30° = <strong>e</strong> (%99.998 Doğruluk)</li>
+            <li style="margin-bottom: 5px;">tan 51.85° = 4 / <strong>π</strong> (%99.99 Doğruluk)</li>
+            <li style="margin-bottom: 5px;">cos 51.85° = 1 / <strong>Φ</strong> (%99.95 Doğruluk)</li>
+            <li>sin 51.85° = 4 / <strong>πΦ</strong> (%99.94 Doğruluk)</li>
+        </ul>
+    </div>
+
+<p> Sonuçları görüyor musunuz? Çok garip ve esrarengiz. Yazıyı hazırlarken kendi kendime şunu sormadan devam edemiyorum. “Bundan 4 bin yıl önce bu nasıl matematik hesaplamaları nasıl yapılır? Okura bir soru daha “e” sayısı ile gösterilen bu sabit 1618 yılında bulunduğu matematik tarihi araştırma kaynaklarında yazılı olarak bulunur. Sizce de bu sayının varlığı ve tam olarak aynı sayı olması garip değil mi? Bence şimdiden şaşırmayın!
+</p>
+    <div class="sag-gorsel-kutusu">
+        <img src="pi-sayisi.jpg" alt="Piramit" class="konu-resmi">
+        <p class="gorsel-aciklama">
+</p>
+    </div>
+    
+<p>Büyük Piramidin başka bir matematiksel güzelliği pi sayısı ile ilgilidir. Piramidin tabanı eşit uzunlukta olduğundan dolayı yüksekliği hesaplamak için, Piramidin yüksekliğine eşit, bir çember alınır ve kareleştirilir. Oluşan çemberin çevresine yaklaşık bir kare hesaplanır ve yükseklik elde edilir. Bu aslında eskilerden beri gelen bir matematik sorusundan başka bir şey değildir. Hatırlayınız ki “Çemberi kareleştirmek” adlı birçok çalışma yapılmıştır. Bu nokta da bir esrarengiz olay yine karşımıza gelmektedir. Yukarıda anlattığımız tüm şeyler pi sayısının transandaltal bir sayı olduğunu göstermektedir. Ama pi sayısını Transandaltal bir sayı olduğunu 1882 yılında Lindemann göstermişti. Hayret verici!
+ </p>
+ <br>
+ <p>Piramit geometrisini analiz etmenin bir diğer yolu, zemin düzlemine göre 45 derece döndürülmüş bir karedir. Diyagonal biçimde 555.5 feet yada 6666 inç çevre uzunluğuna sahiptir. Eğim açısının ise 51 derece 51 saniye olması ölçümün %99.8 gibi kesine yakın olmasına olanak sağlamaktadır.
+</p>
+<br>
+<p>Piramidin yüksekliği ise bu muazzam sayı ile sınırlanır. 0.0001 gibi bir hata yapılması halinde piramidin yükseliğinden kaynaklanan sorun ile hiçbir şekilde inşa edilemeyecektir. Taban içinde hayali olarak oluşan ve ölçümün bu şekilde yapıldığı düşünüldüğünde 2 çember 777 feet ve bir tanesi ise 7777 inçtir. Burada 7 sayısının bolca kullanılması ise farklı bir yorum getirecektir. Piramidin tabanındaki üçgensel bölgeye dünyanın tropikal günlerini gösteren ve 365.242 feet çapa sahip bir dünya sığacağı ise böyle bir hesaplamanın ancak uzaya gönderilen bir ölçüm aracının topladığı veriler ile gerçekleşeceğini göstermektedir. Peki bu hesap tam tamına nasıl yapıldı?
+</p>
+<div class="tam-ekran-arsiv">
+        <img src="ucgen.jpg" alt="Mısır Piramitleri" class="konu-resmi">
+        <p class="gorsel-aciklama"></p>
+    </div>
+    <p>Bir sonraki ilginç hesaplama ise taban uzunluğu dünyanın çapı ile aynı uzunluğa sahip bir piramit tabanı arasında olan ilişkidir. Ünlü filozof ve yazar John Michell büyük piramidin yükselikliğini kullanarak Ay ve Dünya arasındaki mesafeyi tam olarak ölçmüştür. Ayı, dünyanın üstüne teğet bir biçimde getirmiş ve ölçüm yapmıştır. İşte şu şekilde,Özellikle platonik cisimlerlerden de yararlanıldığını gösteren birkaç delil de elimizde bulunmaktadır. Platonik cisimlerden aynı sınıfa ait olan icosahedron ve dodecahedron yansıması ölçümde kullanılmaktadır. Peki Nasıl? İcosahedron dodecahedron’un ters yüzüdür. Bir madalyon misali… Siz eğer bu platonik cisimlerden birini ters çevirdiğinizde şekil tamamlanır. Aşağıda fotoğrafta korelasyona bakarak bu iki katmandaki açısal derecelerin toplamının 10080 eşit olduğunu göreceksiniz ki bu sayı Dünya-Ay arasındaki uzaklığın aynısıdır ( “mil” cinsinden )</p>
+    <br>
+    <p>Bu noktada Sylvia Brown “Dünyanın Sırları ve Gizemleri” adlı kitabında bu yapıların insanlar tarafından yapılmasının güçlüğü anlatılmaktadır. Dolayısıyla bu yazıdan şu teoriyi çıkarıyoruz.</p>
+    <br>
+    <p style="font-weight: bold; color: var(--primary);">"İnsanlık, teknolojiyi ve bilimi eskiden çok üst düzey bir şekilde kullanıyordu, ancak yaşanan büyük felaketler sonucu tüm teknoloji sıfırlandı."</p>
+<div class="references">
+            <h3>Referans</h3>
+            <ul>
+                <li>Brown, S; Dünyanın Sırları ve Gizemleri – Mısır Piramitleri</li>
+                <li>ancient-origins.net</li>
+                <li>mathhistory.com</li>
+            </ul>
+        </div>
+
+        <div style="text-align: right; margin-top: 20px; font-style: italic; font-size: 0.85rem;">
+            <strong>Kaynakça:</strong> 
+            <a href="https://www.muhendisbeyinler.net/misir-piramitleri-ve-matematik/" target="_blank" style="color: #007bff; text-decoration: underline;">
+                https://www.muhendisbeyinler.net/misir-piramitleri-ve-matematik/
+            </a>
+        </div>
+    </div>
+
+    <div style="clear: both;"></div>
+
+                <div id="yunan" class="arsiv-konu">
+                    <h1>Antik Yunan: Matematiğin Altın Çağı</h1>
+                    <p>Antik Yunan matematiği, M.Ö. 7. yüzyıldan M.S. 4. yüzyıla kadar Doğu Akdeniz havzasında yaşayan Yunan düşünürler tarafından geliştirilen matematiksel bilgi birikimini ifade eder. Kendisinden önceki Mısır ve Babil matematiğinin pratik ve deneysel yaklaşımından farklı olarak, Antik Yunan matematiği, bilgiyi soyut bir düzeyde ele alıp mantıksal çıkarımlara ve kesin ispatlara dayandıran ilk sistemdir. Bu dönem, matematiğin yalnızca günlük gereksinimleri karşılayan bir araç olarak kullanılmasından, bağımsız bir düşünce disiplini ve evreni anlamaya yönelik bir alan olarak ele alınmasına geçiş sağlamıştır. “Matematik” terimi ise bu dönemde, “öğrenilmesi gereken şey” veya “eğitimle ilgili” anlamlarını taşıyan Yunanca “mathema” sözcüğünden türetilmiştir.</p>                    
+                    <br>
+                    <h2>Kökenleri ve Gelişimi</h2>
+                    <p>Antik Yunan matematiği, kendine özgü soyutlama düzeyine ulaşmadan önce, Mezopotamya ve Mısır gibi kadim uygarlıkların pratik bilgi birikiminden beslenmiştir. Özellikle Miletli Thales ve onun ardıllarının Mısır’a gerçekleştirdiği ziyaretler, geometri ve astronomi alanlarındaki bilgilerin Yunan dünyasına taşınmasına zemin hazırlamıştır. Mısırlılar, üçgenlerin alanını hesaplamak veya Nil taşkınlarından sonra arazi sınırlarını yeniden belirlemek gibi uygulamalı ihtiyaçlara yanıt ararken; Babilliler ise karmaşık sayı sistemleriyle takvim düzenlemeleri ve ticari hesaplamalar yapmışlardır.</p>
+                    <br>
+                    <p>Ancak Yunan düşünürleri, bu bilgileri yalnızca uygulama düzeyinde ele almakla yetinmemiş, aksine onları sorgulayarak altında yatan genel ilkelere ulaşma çabasına girmişlerdir. Böylece ilk kez matematik, yalnızca bir araç olmaktan çıkarak, evrensel doğruların izini süren bağımsız bir bilgi alanı hâline gelmiştir. Bu yaklaşım, hem geometrik hem de aritmetik düşüncenin soyut bir temele oturmasını sağlamıştır.
+                    </p>       
+                    <br>             
+                    <p>Antik Yunan matematiğinin gelişimi genel olarak iki ana evrede ele alınabilir: Klasik Dönem ve Helenistik Dönem. Klasik Dönem’de, Pythagoras gibi filozoflar aracılığıyla sayıların mistik boyutu vurgulanırken, Eukleides (Öklid) gibi isimler sayesinde sistematik aksiyomatik yaklaşımlar ortaya çıkmıştır. Helenistik Dönem’de ise İskenderiye gibi bilim merkezlerinde Arşimet ve Apollonios gibi matematikçiler daha karmaşık problemlerle ilgilenmiş, matematiği ileri düzey teorik hesaplamalara taşıyan çalışmalar gerçekleştirmiştir. Tarihsel kayıtlar ve mevcut yazılı eserler, Antik Yunan matematiğinin yalnızca önceki uygarlıkların (örneğin Mısır ve Mezopotamya) matematiksel birikimini devralmakla kalmayıp, aynı zamanda mantık, kanıta dayalı çıkarım ve soyutlama ilkelerini sistemli biçimde geliştirerek sonraki yüzyılların bilimsel düşünce biçimlerinin şekillenmesinde etkili olduğunu göstermektedir.
+                    </p>
+                    <br>
+                    <h2>Matematiksel Düşüncenin Temelleri</h2>
+                    <p>Antik Yunan matematiğinin en önemli katkılarından biri, matematiksel düşüncede “ispat” kavramının yerleşmesidir. Önceki medeniyetler, bir kuralın birçok durumda geçerli olduğunu gözlemleyerek onu doğru kabul etme eğilimindeydi; bu yaklaşım, tümevarımsal akıl yürütmeye dayanıyordu. Ancak Yunan matematikçiler, bir önermenin yalnızca belirli örneklerde değil, her koşulda geçerli olduğunu göstermek için tümdengelimli akıl yürütme yöntemini benimsediler. Bu yaklaşım, matematikte kesinlik arayışının başlamasında bir dönüm noktasını temsil eder. Miletli Thales, bu yaklaşımın öncüsü olarak kabul edilir. Mezopotamyalılar, yarım daire içine çizilen belirli üçgenlerin dik açılı olduğunu gözlemlemişlerdi; fakat Thales, bunun tüm çap tabanlı üçgenler için geçerli olduğunu mantıksal adımlarla kanıtlamıştır. Bu yöntem, matematiği salt gözleme dayalı bir bilgi alanı olmaktan çıkararak, soyut ve evrensel ilkelerin sistematik olarak doğrulandığı bir disipline dönüştürmüştür.
+                    </p>
+                    <br>
+                    <div class="sag-gorsel-kutusu">
+        <img src="antik_yunan_matematiği_201328_1.png" alt="Antik Yunan Matematiği - 1 (Yapay Zeka ile Oluşturulmuştur)" class="konu-resmi">
+        <p class="gorsel-aciklama">Antik Yunan Matematiği - 1 (Yapay Zeka ile Oluşturulmuştur)</p> </div>
+                    <p>Bu süreç, aksiyom, postulat ve teorem gibi temel kavramların ortaya çıkmasına zemin hazırlamıştır. Aksiyomlar, doğruluğu apaçık kabul edilen ve ispat gerektirmeyen temel önermelerdir. Postulatlar ise belirli bir sistem içinde kabul edilen başlangıç varsayımlarıdır. Bu temeller üzerine inşa edilen matematiksel yapı, teoremler aracılığıyla mantıksal bir bütünlük kazanır. Bu sistematik yaklaşımın en olgun örneği, Öklid’in Elementler adlı eseridir. Bu eser, az sayıda aksiyom ve postulat kullanarak yüzlerce teoremi mantıksal bir sırayla kanıtlamış ve matematik tarihinde kalıcı bir model oluşturmuştur.
+                    </p>
+                    <br>
+                    <h2>Antik Yunan Matematiğinin Öncüleri ve Kuramsal Katkıları</h2>
+                    <p>Antik Yunan matematiği, yalnızca teknik başarılarıyla değil, aynı zamanda matematiğe yaklaşım biçiminde oluşturduğu dönüşümle bilim tarihinde özgün bir yer edinmiştir. Mezopotamya ve Mısır gibi uygarlıklardan aktarılan pratik bilgi birikimi, Yunan düşünürler tarafından felsefi temellerle değerlendirilmiş ve sistematik bir yapıya kavuşturulmuştur. Bu süreçte farklı dönemlerde yaşamış birçok matematikçi, mantıksal ispat, oranlar kuramı, aksiyomatik sistem ve cebirsel notasyon gibi alanlarda önemli katkılar sunmuştur.
+                    </p>
+                    <h2>Thales ve Geometrik Akıl Yürütmenin Başlangıcı (M.Ö. 624–548)</h2>
+                    <p>Miletli Thales, hem felsefe hem de matematik tarihinde adı ilk anılan figürlerden biridir. Mısır'da edindiği geometrik bilgileri İyonya’ya taşımış ve bu bilgileri soyut düşünceye dayalı bir biçimde değerlendirmiştir. Gölge uzunluklarının kullanılması yoluyla piramitlerin yüksekliğinin hesaplanması, gözleme dayalı veriler ile akıl yürütme süreçlerinin birlikte uygulanmasının bir örneğini oluşturur. Thales’e atfedilen önermeler arasında bir çemberin çap tarafından iki eş parçaya bölünmesi ve yarım daire içine çizilen üçgenin dik açılı olması gibi temel geometrik teoremler yer alır.
+                    </p>
+                    <h2>Pisagor ve Sayının Felsefesi (M.Ö. 580–500)</h2>
+                    <p>Sisamlı Pisagor, Güney İtalya’daki Kroton kentinde kurduğu okul aracılığıyla hem matematiksel hem de felsefi bir gelenek başlatmıştır. Pisagorcular, evrenin temel yapısının sayılarla açıklanabileceğini savunmuş ve “her şey sayıdır” anlayışını benimsemişlerdir. Müzikteki armonilerin basit sayısal oranlarla ifade edilebileceğini göstermeleri, bu yaklaşımı güçlendirmiştir. En çok bilinen katkısı olan Pisagor Teoremi, aynı zamanda irrasyonel sayıların ortaya çıkmasına ve bu durumun Pisagorcu sistemde krize yol açmasına neden olmuştur.
+                    </p>
+                    <h2>Platon ve Matematiğin Metafizik Yönü (M.Ö. 427–347)</h2>
+                    <p> Platon, matematiği yalnızca sayısal işlemlerle değil, zihinsel gelişimle ilişkili felsefi bir etkinlik olarak değerlendirmiştir. Atina’da kurduğu Akademi’nin girişine “geometri bilmeyen giremez” yazdırması, matematiğe verdiği önemi yansıtır. Matematik, Platon için idealar dünyasına ulaşmada temel bir araçtır. Akademi’de yapılan çalışmalar, özellikle beş düzgün çokyüzlü (Platonik katılar) üzerine yoğunlaşmış ve doğa ile evrenin yapısı arasında bağ kurulmasına zemin hazırlamıştır.
+                    </p>
+                    <h2>Eudoxus ve Oranlar Teorisi (M.Ö. 408–355)</h2>
+                    <p>Platon’un öğrencilerinden olan Knidoslu Eudoxus, irrasyonel sayıların doğurduğu krizi oranlar teorisi ile aşmıştır. Bu kuram, büyüklükleri sayılara bağlı olmadan karşılaştırmaya imkân tanımış ve böylece geometriyi sağlam bir kuramsal temele oturtmuştur. Eudoxus’un alan ve hacim hesaplarında kullandığı “tüketme yöntemi” ise, daha sonra integral hesabın gelişimine öncülük etmiştir.</p>
+                    <h2>Öklid ve Aksiyomatik Sistem (M.Ö. 300 civarı)</h2>
+                    <p>İskenderiyeli Öklid, Elementler (Stoikheia) adlı yapıtıyla matematik tarihinde sistematik düşüncenin öncüsü olmuştur. Tanımlar, aksiyomlar ve postulatlar üzerine kurulu olan bu eser, yüzlerce teoremi mantıksal sırayla ispatlamaktadır. Yaklaşık iki bin yıl boyunca matematik eğitiminde temel kaynak olarak kullanılan Elementler, Batı düşünce tarihinde mantıksal ispatın simgesi hâline gelmiştir.
+                    </p>
+                    <h2>Arşimet ve Alan-Hacim Hesapları (M.Ö. 287–212)</h2>
+                    <p>Siraküza’da yaşamış olan Arşimet, antik dünyanın en üretken matematikçilerinden biri olarak kabul edilir. Tüketme yöntemini ustalıkla kullanarak parabolik alanları ve küre hacimlerini hesaplamış, Pi (π) sayısının yaklaşık değerini dar bir aralıkta belirlemiştir. Bu çalışmalar, yüzyıllar sonra gelişecek diferansiyel ve integral hesap için temel teşkil etmiştir.
+                    </p>
+                    <h2>Eratosthenes ve Matematiksel Coğrafya (M.Ö. 276–194)</h2>
+                    <p>İskenderiye Kütüphanesi’nin yöneticisi olan Eratosthenes, Dünya’nın çevresini gölge uzunlukları ve meridyen açı farklarını kullanarak oldukça doğru bir biçimde hesaplamıştır. Sayı teorisine katkısı ise, asal sayıları ayıklamak için geliştirdiği “Eratosthenes Kalburu” yöntemidir; bu yöntem, günümüzde hâlâ öğretilen temel sayma araçlarındandır.
+                    </p>
+                    <h2>Apollonios ve Konik Kesitler (M.Ö. 262–190)</h2>
+                    <p>Pergeli Apollonios, Konikler adlı eseriyle elips, parabol ve hiperbol gibi eğrilerin tanımlarını ve özelliklerini sistematik biçimde açıklamıştır. Bu eğriler, daha sonra Kepler ve Newton’un gezegen hareketlerini açıklarken başvurduğu geometrik temelleri oluşturmuştur.
+                    </p>
+                    <h2>Diophantus ve Cebirsel Notasyonun İlk Adımları (M.S. 200–284)</h2>
+                    <div class="sag-gorsel-kutusu">
+        <img src="antik_yunan_matematiği_201337_2.png" alt="Antik Yunan Matematiği - 2 (Yapay Zeka ile Oluşturulmuştur)" class="konu-resmi">
+        <p class="gorsel-aciklama">Antik Yunan Matematiği - 2 (Yapay Zeka ile Oluşturulmuştur)</p> </div>
+                    <p>Diophantus, Antik Dönem’in geç evresinde cebirsel düşüncenin gelişiminde önemli bir rol oynamıştır. Arithmetica adlı eserinde, tam sayılarla çözülebilecek cebirsel denklemler üzerine çalışmış, cebirsel notasyonun erken örneklerini geliştirmiştir. Bu denklemler, günümüzde “Diophantus denklemleri” olarak anılmakta ve modern cebirin öncüsü sayılmaktadır.</p>
+                    <br>
+                    <h2>Antik Yunan Sayı Sistemleri</h2>
+                    <p>Antik Yunanlar başlangıçta, sayıları temsil etmek amacıyla kelimelerin baş harflerine dayanan "Herodianik" ya da "akrofonik" adı verilen sistemi kullanmışlardır. Bu sistemde, sayıları ifade eden sözcüklerin ilk harfleri sayı sembolü olarak atanmıştır. Örneğin, “pente” (beş) sözcüğünün baş harfi olan Π harfi 5’i, “deka” (on) sözcüğünün baş harfi Δ harfi ise 10’u temsil etmekteydi. Bu sistem özellikle küçük sayılar için işlevsel olsa da daha büyük sayıların gösteriminde karmaşık hâle gelmiştir.
+                    </p>
+                    <br>
+                    <p>Zamanla Yunanlar, harflerin doğrudan sayısal değerlere karşılık geldiği daha gelişmiş bir gösterim biçimi olan alfabetik (İyonya) sayı sistemini benimsemişlerdir. Bu sistemde Yunan alfabesinin 24 harfi ile birlikte üç ek harf kullanılarak birden 900’e kadar olan sayılar ifade edilmiştir. Örneğin, α = 1, β = 2, ι = 10, κ = 20 gibi harflere karşılık gelen değerler kullanılmıştır. Bu yöntemle her sayı, harflerin bir araya getirilmesiyle yazılmıştır. İyonya sistemi, hem bilimsel hesaplamalarda hem de ticari kayıtlarda yaygın biçimde kullanılmıştır.
+                    </p>
+                   
+                    <h2>Üç Klasik Problem</h2>
+                    <p>Antik Yunan matematikçileri, yalnızca teorik kuramlarla değil, aynı zamanda belirli geometrik problemleri çözmeye yönelik çabalarıyla da dikkat çekmişlerdir. Bunlar arasında en çok bilinen üç klasik problem, yalnızca pergel ve cetvel kullanılarak çözülmeye çalışılmış ve yüzyıllar boyunca matematiksel ilgi odağı olmuştur:
+                    </p>
+                    <ol style="line-height: 1.6;">
+        <li style="margin-bottom: 15px;">
+            <strong>Daireyi Kareleme (Quadratura Circuli):</strong> Verilen bir daire ile aynı alana sahip bir kare çizilmesi problemidir. Bu sorun, π sayısının doğasıyla doğrudan bağlantılıdır ve π'nin irrasyonel ve sonrasında da "aşırı geçişli" (transcendental) olduğunun anlaşılmasıyla, klasik araçlarla çözülemez olduğu ispatlanmıştır.
+        </li>
+        <li style="margin-bottom: 15px;">
+            <strong>Küpü İki Katına Çıkarma (Delos Problemi):</strong> Efsaneye göre Antik Delos halkı, bir salgından kurtulmak için tanrılarına bir küp biçiminde sunak inşa eder; kahinler ise bu küpün hacminin tam iki katı kadar olması gerektiğini bildirir. Ancak bu hacme sahip yeni bir küpün kenar uzunluğunun inşa edilmesi, yani $\sqrt[3]{2}$'nin geometrik olarak çizilmesi gerektiğinden, pergel ve cetvelle çözülemeyecek bir probleme dönüşür.
+        </li>
+        <li>
+            <strong>Açıyı Üçe Bölme:</strong> Verilen herhangi bir açının eşit üç parçaya ayrılması problemidir. Özellikle genel bir açının üçe bölünmesinin her zaman mümkün olup olmadığı sorusu, geometri tarihinin temel problemleri arasında yer almıştır.
+        </li>
+    </ol>
+    <p>Bu üç problemin, yalnızca pergel ve cetvel kullanılarak çözülemeyeceği, ancak 19. yüzyılda modern cebir ve soyut matematik yöntemleriyle kesin olarak ispatlanabilmiştir. Bununla birlikte, bu problemlere getirilen çözüm denemeleri sırasında konik kesitler gibi birçok yeni geometrik ve cebirsel kavram geliştirilmiş; bu da matematiksel düşüncenin sınırlarının genişlemesine katkı sağlamıştır.
+</p>
+
+<br>
+<div style="border-top: 1px solid #ddd; padding-top: 20px; margin-top: 30px; font-size: 0.9rem; line-height: 1.6;">
+    
+    <h3 style="color: #c0392b; margin-bottom: 10px;">Kaynakça</h3>
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 10px;">
+            Berggren, J. L. “History of Greek Mathematics: A Survey of Recent Research.” <em>Historia Mathematica</em> 11, no. 4 (1984): 394–410. Erişim Tarihi: 6 Ağustos 2025. 
+            <a href="https://doi.org/10.1016/0315-0860(84)90024-7" target="_blank" style="color: #c0392b; text-decoration: none;">https://doi.org/10.1016/0315-0860(84)90024-7</a>
+        </li>
+         
+        <li style="margin-bottom: 10px;">
+            Chrisomalis, Stephen. <em>Numerical Notation: A Comparative History</em>. Cambridge: Cambridge University Press, 2010.
+        </li>
+        
+        <li style="margin-bottom: 10px;">
+            Fowler, David H. <em>The Mathematics of Plato's Academy: A New Reconstruction</em>. 2nd ed. Oxford: Clarendon Press, 1999.
+        </li>
+        
+        <li style="margin-bottom: 10px;">
+            Heath, Thomas L. <em>A History of Greek Mathematics: From Thales to Euclid</em>. Oxford: Clarendon Press, 1921.
+        </li>
+        
+        <li style="margin-bottom: 10px;">
+            Jongsma, Calvin. “The History of Mathematics: A Source-Based Approach Volume 1.” <em>British Journal for the History of Mathematics</em> (2020). Erişim Tarihi: 6 Ağustos 2025. 
+            <a href="https://doi.org/10.1080/26375451.2020.1741783" target="_blank" style="color: #c0392b; text-decoration: none;">https://doi.org/10.1080/26375451.2020.1741783</a>
+        </li>
+        
+        <li style="margin-bottom: 10px;">
+            Netz, Reviel. <em>The Shaping of Deduction in Greek Mathematics: A Study in Cognitive History</em>. Cambridge: Cambridge University Press, 1999.
+        </li>
+        
+        <li style="margin-bottom: 10px;">
+            Tod, Marcus Niebuhr. “Three Greek Numeral Systems.” <em>The Journal of Hellenic Studies</em> 33 (1913): 27–34. Erişim Tarihi: 6 Ağustos 2025. 
+            <a href="https://doi.org/10.2307/624082" target="_blank" style="color: #c0392b; text-decoration: none;">https://doi.org/10.2307/624082</a>
+        </li>
+        
+        <li style="margin-bottom: 10px;">
+            "Matematik". <em>Nişanyan Sözlük</em>. Erişim Tarihi: 6 Ağustos 2025. 
+            <a href="https://www.nisanyansozluk.com/kelime/matematik" target="_blank" style="color: #c0392b; text-decoration: none;">https://www.nisanyansozluk.com/kelime/matematik</a>
+        </li>
+    </ul>
+<div style="text-align: right; margin-top: 20px; font-style: italic; font-size: 0.85rem;">
+            <strong>Kaynakça:</strong> 
+            <a href="https://kureansiklopedi.com/tr/detay/antik-yunan-matematigi-0ad71#resource-target-bukzuuksg" target="_blank" style="color: #007bff; text-decoration: underline;">
+                https://kureansiklopedi.com/tr/detay/antik-yunan-matematigi-0ad71#resource-target-bukzuuksg
+            </a>
+        </div>
+    
+</div>
+
+<div style="clear: both;"></div>
+<div style="height: 50px;"></div>
+                </div>
+                <div id="Matematik Nedir? Nasıl Doğmuştur?" class="arsiv-konu">
+<h2>Matematik: Evrenin Kendi Dili ve İnsanlığın En Büyük Keşfi</h2>
+
+<p>Matematik kelimesini duyduğumuzda çoğumuzun zihninde beliren imgeler genellikle birbirine benzerdir: Soğuk ve gri okul binaları, kara tahtalar üzerinde uçuşan karmaşık formüller, sınav kağıtlarında bir türlü sonucuna ulaşamadığımız "x" bilinmeyenleri ve belki de o derinden gelen "Bu benim gerçek hayatta ne işime yarayacak?" sorusu... Oysa matematiği sadece okul sıralarına hapsedilmiş sıkıcı bir ders olarak görmek, okyanusu sadece bir bardak sudan ibaret sanmak gibidir. Çünkü matematik, insan icadı soyut bir işkence yöntemi değil, evrenin ta kendisidir.</p>
+
+<p>Galileo Galilei'nin yüzyıllar önce söylediği, <strong>"Evren, matematik diliyle yazılmış devasa bir kitaptır"</strong> sözü, aslında romantik bir betimleme değil, bilimsel bir gerçektir. Bir ayçiçeğinin tohum dizilişindeki spirallerden, gezegenlerin yörüngesindeki kusursuz elipslere; bir salyangoz kabuğunun kıvrımlarından, akıllı telefonlarımızdaki piksellere kadar her şey, bu dilin harfleriyle yazılmıştır. Eğer bu dili okumayı bilmiyorsanız, evrenin sayfaları arasında sadece resimlere bakarak kaybolursunuz. Peki, insanlık bu dili nasıl çözdü? Bu muazzam sistem nasıl doğdu?</p>
+
+<h3>1. Perde: Hayatta Kalma İçgüdüsü ve Sayıların Şafağı</h3>
+
+<p>Tarihi, modern dünyadan, şehirlerden ve teknolojiden binlerce yıl geriye saralım. Henüz yazının, paranın, hatta tekerleğin bile olmadığı zamanlara... İnsanoğlu için hayatın tek bir amacı vardı: Hayatta kalmak. Matematik, bir bilim dalı olarak değil, işte bu vahşi dünyada hayatta kalma çabası olarak, saf bir ihtiyaçtan doğdu.</p>
+
+<p>Bir kabile üyesi olduğunuzu hayal edin. Mağaranızdan çıktınız ve sürünüzdeki hayvanları otlatmaya götürüyorsunuz. Sayı saymayı bilmiyorsunuz, "50" veya "100" gibi kavramlar zihninizde yok. Ancak akşam mağaraya döndüğünüzde, sabah götürdüğünüz hayvanların hepsinin geri dönüp dönmediğini bilmek zorundasınız. Ya birini kurt kaptıysa? Ya biri uçurumdan düştüyse? Bunu fark edemezseniz, kabileniz aç kalabilir.</p>
+
+<p>İşte tam bu noktada, insanoğlunun soyut düşünme yeteneği devreye girdi. Atalarımız, "birebir eşleme" yöntemini keşfettiler. Belki ceplerinde tablet bilgisayarlar yoktu ama hayvan kemiklerinin üzerine çentikler atarak ilk veritabanını oluşturdular. Mağaradan çıkan her hayvan için kemiğe bir çizik attılar, akşam dönen her hayvan için o çiziğe dokundular. Boşta kalan bir çizik varsa, bir hayvan eksik demekti. Arkeologların bulduğu <em>Ishango Kemiği</em> gibi bulgular, matematiğin aslında "aç kalmama sanatı" olarak başladığını bize kanıtlıyor.</p>
+
+<h3>2. Perde: Nil'in Gazabı ve Geometrinin Doğuşu</h3>
+
+<p>İnsanlık avcı-toplayıcı yaşamı bırakıp tarım toplumuna geçtiğinde, sorunlar da karmaşıklaşmaya başladı. Bu karmaşanın merkezi ise Antik Mısır'dı. Mısır medeniyeti, varlığını Nil Nehri'ne borçluydu. Nehir, kurak çölün ortasında hayat veriyordu ama aynı zamanda büyük bir kaosun da kaynağıydı. Her yıl belirli dönemlerde Nil taşıyor, tarlaları sular altında bırakıyor ve en önemlisi, insanların arazilerini ayıran tüm sınır çizgilerini siliyordu.</p>
+
+<p>Sular çekilip çamur deryası ortaya çıktığında, köylüler arasında büyük kavgalar başlıyordu: "Benim tarlam şuradaki hurma ağacından başlıyordu, senin sınırın burasıydı!" Bu sınır anlaşmazlıkları, hem sosyal barışı tehdit ediyor hem de Firavun'un vergi toplama sistemini bozuyordu. Çünkü ne kadar toprağınız varsa, o kadar vergi ödemeliydiniz.</p>
+
+<p>Bu kaosu çözmek için "Harpedonaptai" (İpi Gerenler) adı verilen, belki de tarihin ilk mühendisleri sahneye çıktı. Ellerinde, belirli aralıklarla düğümler atılmış uzun ipler vardı. Bu ipleri kullanarak arazide kusursuz dik üçgenler (bugün bildiğimiz 3-4-5 üçgeni) oluşturuyor ve sınırları milimetrik hassasiyetle yeniden çiziyorlardı. Kelime kökeni Yunanca "Geo" (Yer) ve "Metron" (Ölçüm) kelimelerinden gelen <strong>Geometri</strong>, işte bu çamurlu tarlaların ortasında, sırf insanlar birbirini öldürmesin ve devlet işleyebilsin diye doğdu.</p>
+
+<h3>3. Perde: Gökyüzünü İzleyenler ve Babil'in Mirası</h3>
+
+<p>Aynı dönemlerde Mezopotamya'da, bugünkü Irak topraklarında yaşayan Babilliler ise gözlerini topraktan ziyade gökyüzüne dikmişti. Tarım yapacakları en doğru zamanı, nehirlerin taşma vakitlerini ve mevsim döngülerini anlamak için Güneş'i, Ay'ı ve yıldızları takip etmek zorundaydılar. Bu gözlemler, muazzam bir matematiksel birikimi beraberinde getirdi.</p>
+
+<p>Babilliler, bugün bizim günlük hayatta kullandığımız 10'luk sistem (parmak hesabı) yerine, çok daha esnek ve güçlü olan <strong>60'lık taban sistemini</strong> (seksajessimal sistem) kullanıyorlardı. Peki neden 60? Çünkü 60 sayısı, matematikteki "süper sayılardan" biridir; 2, 3, 4, 5, 6, 10, 12, 15, 20 ve 30'a kalansız bölünebilir. Bu özellik, ticaret ve astronomi hesaplamalarında onlara büyük kolaylık sağlıyordu.</p>
+
+<p>Bugün kolumuzdaki saate baktığımızda 1 saatin 60 dakika olması, 1 dakikanın 60 saniye olması veya bir dairenin 360 derece olması, bize o günlerden, Babil kulelerinin tepesinden kalan bir mirastır. Farkında olmadan, binlerce yıl öncesinin matematiğini her gün bileğimizde taşıyoruz.</p>
+
+<h3>4. Perde: "Nasıl"dan "Neden"e Geçiş – Antik Yunan Devrimi</h3>
+
+<p>Mısırlılar ve Babilliler matematiği muazzam bir ustalıkla kullandılar. Piramitler inşa ettiler, gök haritaları çıkardılar. Ancak onların matematiği her zaman "pratik" amaçlıydı. "Bu formül çalışıyor mu? Evet. O zaman kullan." mantığındaydılar. "Neden çalışıyor?" sorusu pek sorulmuyordu.</p>
+
+<p>Tarih sahnesi Antik Yunan'a döndüğünde ise Thales, Pisagor, Öklid ve Arşimet gibi vizyoner düşünürler, matematiği inşaatın tozundan ve pazar yerinin gürültüsünden ayırıp, zihinsel ve felsefi bir sanata dönüştürdüler. Onlar için matematik, sadece iş görmek için değil, evrenin mutlak doğrularına ulaşmak içindi.</p>
+
+<p>İşte bu dönemde <strong>"İspat" (Kanıt)</strong> kavramı doğdu. Bir teoremin doğruluğunu, elimize mezura alıp ölçmeden, sadece saf akıl yürütme (mantık) yoluyla kanıtlamak... Öklid'in yazdığı "Elementler" kitabı, sonraki 2000 yıl boyunca matematiğin kutsal kitabı kabul edildi. Yunanlılar matematiği soyutlaştırdı ve onu sonsuzluğa uzanan bir düşünce sistemi haline getirdi.</p>
+
+<h3>5. Perde: Doğu'nun Altın Çağı ve Sıfırın Gücü</h3>
+
+<p>Batı dünyası Roma İmparatorluğu'nun çöküşüyle Orta Çağ karanlığına gömülürken, matematik meşalesini Doğu dünyası devraldı. Hindistan ve İslam coğrafyasındaki matematikçiler, insanlık tarihinin belki de en büyük, en devrimci buluşunu yaptılar: <strong>Sıfır.</strong></p>
+
+<p>Düşünmesi bile zor olan bir kavram: "Hiçlik" ve "Yokluk" için bir sembol yaratmak. Roma rakamlarını düşünün (I, V, X, L, C, M)... İçinde sıfır yoktur. Bu yüzden Romalılar asla karmaşık matematiksel işlemler yapamaz, bugünkü gibi teknolojiler geliştiremezdi. Sıfırın sisteme dahil edilmesi, matematiğin prangalarından kurtulması demekti.</p>
+
+<p>Bağdat'taki efsanevi "Beyt'ül Hikme"de (Bilgelik Evi) çalışan Harezmi, bu yeni sayı sistemini kullanarak <strong>Cebir</strong>i (Al-Jabr) sistemleştirdi. Bilinmeyenlere "şey" dedi (bugünkü x). Karmaşık denklemleri çözülebilir hale getirdi. Bugün tüm dijital dünyanın, yapay zekaların ve algoritmaların temeli, o günlerde atılan bu adımlara dayanmaktadır. Zaten "Algoritma" kelimesi de Harezmi'nin isminin (Algoritmi) batı dillerindeki telaffuzundan gelmektedir.</p>
+
+<h3>Son Söz: Matematiğin Bize Anlattığı Hikaye</h3>
+
+<p>Tarih boyunca bu zincir hiç kopmadı. Newton ve Leibniz'in değişim matematiğini (Kalkülüs) bulmasıyla sanayi devrimi başladı; Alan Turing'in matematiği mantıkla birleştirmesiyle bilgisayarlar doğdu. Bugün Mars'a gönderilen bir robotun yörüngesinden, Spotify'ın size önerdiği şarkıya kadar her şey, binlerce yıl önce atılan o çentiklerin, çamurlu tarlalarda gerilen iplerin ve gökyüzüne bakılarak yapılan hesapların bir sonucudur.</p>
+
+<p>Matematik, sadece formüllerden ibaret değildir. Matematik, insanın kaosla dolu bir evrende düzen arayışıdır. Belirsizliğe karşı verdiğimiz en büyük savaştır. Ve bu site, işte bu muazzam serüvenin kapılarını aralamak, o formüllerin arkasındaki insan hikayelerini sizlere sunmak için tasarlandı.</p>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
+            }, 1000);
+            yeniSozGetir(); sorulariKaristir(); revealKontrol();
+        });
+
+        function cevirici(val) {
+            if(val === "") { document.getElementById('bin-sonuc').innerText="0"; document.getElementById('hex-sonuc').innerText="0"; return; }
+            let num = parseInt(val);
+            document.getElementById('bin-sonuc').innerText = num.toString(2);
+            document.getElementById('hex-sonuc').innerText = num.toString(16).toUpperCase();
+        }
+
+        function altinOran(val) {
+            if(val === "") { document.getElementById('uzun-sonuc').innerText="0"; document.getElementById('toplam-sonuc').innerText="0"; return; }
+            let kisa = parseFloat(val); let uzun = kisa * 1.618;
+            document.getElementById('uzun-sonuc').innerText = uzun.toFixed(2);
+            document.getElementById('toplam-sonuc').innerText = (kisa+uzun).toFixed(2);
+        }
+
+        window.onscroll = function() {
+            let h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("progress-bar").style.width = (window.scrollY / h) * 100 + "%";
+            revealKontrol();
+        };
+        function revealKontrol() { document.querySelectorAll(".reveal").forEach(r => { if(r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add("aktif"); }); }
+
+        const sozler = [
+          '"Matematik, Tanrı\'nın evreni yazdığı dildir." - Galileo Galilei',
+          '"Hatalı bir yol izlediğinizde bile, bu sizi gerçeğe götürebilir." - Cahit Arf',
+          '"Matematikte kesinlik yoktur; kesinlik varsa matematik değildir." - Albert Einstein',
+          '"Matematik, insan zihninin en saf ürünüdür." - Bertrand Russell',
+          '"Sayılar evrenin anahtarıdır." - Pisagor',
+          '"Bilmek yetmez, anlamak gerekir." - Richard Feynman',
+          '"Gerçek keşif, yeni topraklar bulmak değil; yeni gözlerle bakmaktır." - Marcel Proust',
+          '"Bilim, yanlışlanabilir olanın bilgisidir." - Karl Popper',
+          '"Matematik doğayı açıklamaz, onu okunur hâle getirir." - Max Born',
+          '"Evren matematiksel bir düzene sahiptir." - Johannes Kepler'
+        ];
+
+        function yeniSozGetir() { document.getElementById('hero-soz').innerText = sozler[Math.floor(Math.random()*sozler.length)]; }
+        function modDegistir() { document.body.classList.toggle('koyu-mod'); }
+        function arsivAc() { document.getElementById('tam-ekran-arsiv').classList.add('aktif'); }
+        function arsivKapat() { document.getElementById('tam-ekran-arsiv').classList.remove('aktif'); }
+        function konuGoster(id) { document.querySelectorAll('.arsiv-konu').forEach(e => e.style.display='none'); document.getElementById(id).style.display='block'; }
+
+        const sorular = [ { s: "Algoritma ismi kime aittir?", c: ["Newton", "Harezmi", "Einstein", "Öklid"], d: 1 }, { s: "Geometrinin babası kimdir?", c: ["Pisagor", "Öklid", "Arşimet", "Thales"], d: 1 }, { s: "Sıfırı kim buldu?", c: ["Romalılar", "Mısırlılar", "Hint/İslam", "Yunanlılar"], d: 2 }, { s: "1 saat neden 60 dakikadır?", c: ["Sümerler", "Romalılar", "Türkler", "İngilizler"], d: 0 }, { s: "10 TL arkasındaki kimdir?", c: ["Ali Kuşçu", "Ömer Hayyam", "Cahit Arf", "Kerim Erim"], d: 2 } ];
+        function sorulariKaristir() { sorular.sort(() => Math.random() - 0.5); }
+        let aktifSoru = 0, puan = 0;
+        function quizBaslat() { aktifSoru = 0; puan = 0; document.getElementById('quiz-modal').style.display='flex'; document.getElementById('quiz-soru-alani').style.display='block'; document.getElementById('quiz-sonuc-alani').style.display='none'; soruGoster(); }
+        function soruGoster() { let s = sorular[aktifSoru]; document.getElementById('soru-baslik').innerText = `Soru ${aktifSoru+1}/${sorular.length}`; document.getElementById('soru-metni').innerText = s.s; let h = ""; s.c.forEach((o, i) => { h += `<button class="secenek-btn" onclick="cevapla(this, ${i})">${o}</button>`; }); document.getElementById('secenekler').innerHTML = h; }
+        function cevapla(b, i) { let d = sorular[aktifSoru].d; let btns = document.getElementsByClassName('secenek-btn'); for(let bt of btns) bt.disabled=true; if(i===d) { b.classList.add('dogru'); puan+=20; } else { b.classList.add('yanlis'); btns[d].classList.add('dogru'); } setTimeout(() => { aktifSoru++; if(aktifSoru<sorular.length) soruGoster(); else { document.getElementById('quiz-soru-alani').style.display='none'; document.getElementById('quiz-sonuc-alani').style.display='block'; document.getElementById('puan').innerText=puan; } }, 1000); }
+    </script>
+    <div id="image-zoom-modal" class="zoom-modal" onclick="this.style.display='none'">
+    <img id="zoomed-image" src="" alt="Zoomed">
+</div>
+
+<div id="hakkimda-modal">
+    <div class="hakkimda-kutu">
+        <span class="kapat-x" onclick="hakkimdaKapat()">×</span>
+        
+        <img src="profil.jpg" alt="Profil" class="profil-resmi" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+        
+        <h2 style="margin: 10px 0; color: var(--primary);">Kadir Ege Aslan</h2>
+        <p style="color: #666; font-style: italic;">Geliştirici & Tasarımcı</p>
+        <p style="color: #3a2626; font-style: italic;">Okul Numarası: 256502059</p>
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+        
+        <p style="font-size: 0.95rem; line-height: 1.6;">
+            Bu proje kapsamında, matematiğin yalnızca formüllerden ibaret olmadığını göstermek amacıyla bir web sitesi geliştirdim.
+             Kodlama becerilerimi kullanarak hazırladığım bu sitede, matematiğin tarihsel gelişimi,
+              diğer bilimlerle olan ilişkisi ve düşünsel temelleri sade ve anlaşılır bir dille ele alınmaktadır. 
+            Amacım, matematiği ezberlenen bir ders olmaktan çıkarıp arkasındaki mantığı ve insan hikâyesini ortaya koymaktır.
+        </p>
+        <p style="color: #000000; font-style: italic;">Bölüm: Bilgisayar Programcılığı</p>
+        </div>
+    </div>
+</div>
+</body>
+<script src="main.js"></script>
+</html>
