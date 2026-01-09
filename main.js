@@ -8,7 +8,7 @@ document.querySelectorAll('.konu-resmi, .image-container img').forEach(img => {
         zoomedImg.src = this.src;
     };
 });
-// --- HAKKIMDA BUTONU FONKSİYONLARI ---
+// --- HAKKIMDA AÇ/KAPAT ---
 function hakkimdaAc() {
     document.getElementById('hakkimda-modal').style.display = 'flex';
 }
@@ -17,7 +17,7 @@ function hakkimdaKapat() {
     document.getElementById('hakkimda-modal').style.display = 'none';
 }
 
-// Boşluğa tıklayınca kapansın
+// Pencere dışına tıklayınca kapatma
 document.getElementById('hakkimda-modal').addEventListener('click', function(e) {
     if(e.target === this) hakkimdaKapat();
 });
